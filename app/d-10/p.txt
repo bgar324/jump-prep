@@ -1,0 +1,35 @@
+🧱 LEVEL 2 — CRUD mastery (Create, Read, Update, Delete)
+
+💡 Goal: Make your frontend actually modify data on the backend.
+
+👉 Project idea: “Mini Task Tracker”
+
+Backend: Flask stores an array of tasks (tasks = [{"id": 1, "text": "Buy milk"}])
+
+Routes:
+
+GET /tasks → returns all tasks
+
+POST /tasks → adds a new task
+
+DELETE /tasks/<id> → removes a task
+
+Frontend:
+
+Fetches and displays tasks.
+
+Input box → POST new task.
+
+Trash icon → DELETE.
+
+🧠 What you learn:
+
+RESTful API design
+
+State sync between client & server
+
+JSON request bodies (fetch with body + headers)
+
+Error handling (try/catch around multiple endpoints)
+
+This will make you dangerous in a technical interview.

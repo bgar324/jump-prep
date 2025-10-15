@@ -1,0 +1,2 @@
+Goal:
+Build a very simple full-stack web app with a Flask backend and a React + TypeScript frontend that share one piece of state — a counter.
