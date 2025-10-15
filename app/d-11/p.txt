@@ -1,0 +1,65 @@
+🧩 Problem Statement — “Crypto Watchlist Filter”
+Background
+You’re building a small dashboard that shows a list of cryptocurrencies (Bitcoin, Ethereum, Solana, etc.).
+The backend (Flask) already supports these routes:
+* GET /coins → returns all coins
+* POST /coins → adds a new coin to the list
+* DELETE /coins/<id> → deletes a coin
+Each coin looks like this:
+
+{
+  "id": 1,
+  "name": "Bitcoin",
+  "symbol": "BTC",
+  "price": 64000
+}
+
+Frontend (React + TypeScript)
+* Add an <input> field for the user to type a query (e.g., "eth").
+* As the user types, the displayed list should automatically filter to coins whose name or symbol includes the query (case-insensitive).
+* If the query is empty, show all coins again.
+* Bonus: Display a “No results found” message if nothing matches.
+Backend (optional)
+If you want to stretch it, you can also add:
+
+@app.route("/coins/search")
+def search_coins():
+    query = request.args.get("q", "").lower()
+    filtered = [c for c in COINS if query in c["name"].lower() or query in c["symbol"].lower()]
+    return jsonify(filtered)
+Then the frontend could call /coins/search?q=eth instead of filtering locally.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+🧩 Follow-up questions they might ask:
+1. “Would filtering on the backend be better for 10,000+ coins?”
+2. “How would you debounce the search input to avoid spamming API calls?”
+3. “What if the API fails while searching?”
