@@ -1,18 +1,17 @@
 interface Props {
   link: string;
-  text: string;
 }
 
-export default function Button({ link, text }: Props) {
+export default function Button({ link} : Props) {
   return (
     <a
       className="text-sm rounded-full bg-blue-600 px-5 py-2 text-white font-medium hover:opacity-90 active:opacity-80 transition"
       href={link}
     >
-      {text}
+      go to: {link}
     </a>
   );
-}
+} 
 
 // Problem Statement: Order Book Matcher
 // You're building a simplified order matching system.
