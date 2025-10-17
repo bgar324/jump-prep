@@ -26,6 +26,8 @@ export default function Home() {
         <Button link="/d-13" text="go to d-13" />
         <Button link="/d-14" text="go to d-14" />
         <Button link="/d-15" text="go to d-15" />
+        <Button link="/d-16" text="go to d-16" />
+        <Button link="/d-17" text="go to d-17" />
       </div>
     </div>
   );
