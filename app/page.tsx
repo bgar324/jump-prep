@@ -28,6 +28,10 @@ export default function Home() {
         <Button link="/d-15" />
         <Button link="/d-16" />
         <Button link="/d-17" />
+        <Button link="/d-18" />
+        <Button link="/d-19" />
+        <Button link="/d-20" />
+        <Button link="/d-21" />
       </div>
     </div>
   );
