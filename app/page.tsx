@@ -32,6 +32,8 @@ export default function Home() {
         <Button link="/d-19" />
         <Button link="/d-20" />
         <Button link="/d-21" />
+        <Button link="/d-22" />
+        <Button link="/d-23" />
       </div>
     </div>
   );
