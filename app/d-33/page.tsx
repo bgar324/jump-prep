@@ -21,8 +21,15 @@ export default function App() {
   }, []);
 
   const [trades, setTrades] = useState<Trades[]>([]);
+  const [input, setInput] = useState("");
 
-  const grouped = trades.reduce((previousValue, currentValue) => {
+  const filtered = input === "ALL"
+    ? trades
+    : trades.filter((e) =>
+        e.side.toUpperCase().includes(input.toUpperCase())
+      );
+
+  const grouped = filtered.reduce((previousValue, currentValue) => {
     if (!previousValue[currentValue.symbol]) {
       previousValue[currentValue.symbol] = {
         latestTradePrice: currentValue.price,
@@ -42,6 +49,11 @@ export default function App() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
       <div className="w-full max-w-7xl px-6 flex flex-col">
+        <select value={input} onChange={(e) => setInput(e.target.value)}>
+          <option>ALL</option>
+          <option>BUY</option>
+          <option>SELL</option>
+        </select>
         <table>
           <thead>
             <tr>
@@ -53,9 +65,7 @@ export default function App() {
           <tbody>
             {entries.map(([symbol, data]) => (
               <tr key={symbol}>
-                <td>
-                  {symbol}
-                </td>
+                <td>{symbol}</td>
                 <td>{data.latestTradePrice}</td>
                 <td>{data.totalQuantity}</td>
               </tr>
