@@ -9,7 +9,7 @@ interface Posts {
   body: string;
 }
 
-export function useDebounce<T>(value : T, delay = 300) : T {
+export function useDebounce(value : string, delay = 300){
   const [debounced, setDebounced] = useState(value)
 
   useEffect(() => {

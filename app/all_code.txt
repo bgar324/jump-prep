@@ -1,3 +1,479 @@
+\n\n# ===== ./d-33/page.tsx =====\n
+\n\n# ===== ./d-33/page.tsx =====\n
+"use client";
+
+import { useState, useEffect } from "react";
+
+interface Trades {
+  symbol: string;
+  side: string;
+  price: number;
+  quantity: number;
+}
+
+const initialTrades = [
+  { symbol: "AAPL", side: "BUY", price: 150, quantity: 10 },
+  { symbol: "AAPL", side: "SELL", price: 152, quantity: 5 },
+  { symbol: "TSLA", side: "BUY", price: 240, quantity: 7 },
+];
+
+export default function App() {
+  useEffect(() => {
+    setTrades(initialTrades);
+  }, []);
+
+  const [trades, setTrades] = useState<Trades[]>([]);
+  const [input, setInput] = useState("");
+
+  const filtered = input === "ALL"
+    ? trades
+    : trades.filter((e) =>
+        e.side.toUpperCase().includes(input.toUpperCase())
+      );
+
+  const grouped = filtered.reduce((previousValue, currentValue) => {
+    if (!previousValue[currentValue.symbol]) {
+      previousValue[currentValue.symbol] = {
+        latestTradePrice: currentValue.price,
+        totalQuantity: currentValue.quantity,
+      };
+    } else {
+      (previousValue[currentValue.symbol].latestTradePrice =
+        currentValue.price),
+        (previousValue[currentValue.symbol].totalQuantity +=
+          currentValue.quantity);
+    }
+    return previousValue;
+  }, {} as Record<string, { latestTradePrice: number; totalQuantity: number }>);
+
+  const entries = Object.entries(grouped);
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+      <div className="w-full max-w-7xl px-6 flex flex-col">
+        <select value={input} onChange={(e) => setInput(e.target.value)}>
+          <option>ALL</option>
+          <option>BUY</option>
+          <option>SELL</option>
+        </select>
+        <table>
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Latest Trade Price</th>
+              <th>Total Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {entries.map(([symbol, data]) => (
+              <tr key={symbol}>
+                <td>{symbol}</td>
+                <td>{data.latestTradePrice}</td>
+                <td>{data.totalQuantity}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
+"use client";
+
+import { useState, useEffect } from "react";
+
+interface Trades {
+  symbol: string;
+  side: string;
+  price: number;
+  quantity: number;
+}
+
+const initialTrades = [
+  { symbol: "AAPL", side: "BUY", price: 150, quantity: 10 },
+  { symbol: "AAPL", side: "SELL", price: 152, quantity: 5 },
+  { symbol: "TSLA", side: "BUY", price: 240, quantity: 7 },
+];
+
+export default function App() {
+  useEffect(() => {
+    setTrades(initialTrades);
+  }, []);
+
+  const [trades, setTrades] = useState<Trades[]>([]);
+  const [input, setInput] = useState("");
+
+  const filtered = input === "ALL"
+    ? trades
+    : trades.filter((e) =>
+        e.side.toUpperCase().includes(input.toUpperCase())
+      );
+
+  const grouped = filtered.reduce((previousValue, currentValue) => {
+    if (!previousValue[currentValue.symbol]) {
+      previousValue[currentValue.symbol] = {
+        latestTradePrice: currentValue.price,
+        totalQuantity: currentValue.quantity,
+      };
+    } else {
+      (previousValue[currentValue.symbol].latestTradePrice =
+        currentValue.price),
+        (previousValue[currentValue.symbol].totalQuantity +=
+          currentValue.quantity);
+    }
+    return previousValue;
+  }, {} as Record<string, { latestTradePrice: number; totalQuantity: number }>);
+
+  const entries = Object.entries(grouped);
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+      <div className="w-full max-w-7xl px-6 flex flex-col">
+        <select value={input} onChange={(e) => setInput(e.target.value)}>
+          <option>ALL</option>
+          <option>BUY</option>
+          <option>SELL</option>
+        </select>
+        <table>
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Latest Trade Price</th>
+              <th>Total Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {entries.map(([symbol, data]) => (
+              <tr key={symbol}>
+                <td>{symbol}</td>
+                <td>{data.latestTradePrice}</td>
+                <td>{data.totalQuantity}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
+\n\n# ===== ./d-34/main.py =====\n
+\n\n# ===== ./d-34/main.py =====\n
+trades = [
+    {"symbol": "AAPL", "side": "BUY", "price": 150, "quantity": 10},
+    {"symbol": "AAPL", "side": "SELL", "price": 152, "quantity": 5},
+    {"symbol": "TSLA", "side": "BUY", "price": 240, "quantity": 7},
+]
+
+def group_trades(trades: list[dict], side : str) -> dict: 
+  filtered_trades = []
+  for t in trades:
+    if t["side"] == side.upper():
+      filtered_trades.append(t)
+
+  summary = {}
+  for t in filtered_trades:
+    if t["symbol"] not in summary:
+      summary[t["symbol"]] = {
+        "latest_price" : t["price"],
+        "total_qty" : t["quantity"]
+      }
+    else:
+      summary[t["symbol"]]["latest_price"] = t["price"]
+      summary[t["symbol"]]["total_qty"] += t["quantity"]
+  return summary
+
+result = group_trades(trades, "sell")
+
+result2 = group_trades(trades, "buy")
+print(result)
+
+print(result2)trades = [
+    {"symbol": "AAPL", "side": "BUY", "price": 150, "quantity": 10},
+    {"symbol": "AAPL", "side": "SELL", "price": 152, "quantity": 5},
+    {"symbol": "TSLA", "side": "BUY", "price": 240, "quantity": 7},
+]
+
+def group_trades(trades: list[dict], side : str) -> dict: 
+  filtered_trades = []
+  for t in trades:
+    if t["side"] == side.upper():
+      filtered_trades.append(t)
+
+  summary = {}
+  for t in filtered_trades:
+    if t["symbol"] not in summary:
+      summary[t["symbol"]] = {
+        "latest_price" : t["price"],
+        "total_qty" : t["quantity"]
+      }
+    else:
+      summary[t["symbol"]]["latest_price"] = t["price"]
+      summary[t["symbol"]]["total_qty"] += t["quantity"]
+  return summary
+
+result = group_trades(trades, "sell")
+
+result2 = group_trades(trades, "buy")
+print(result)
+
+print(result2)\n\n# ===== ./d-35/main.py =====\n
+\n\n# ===== ./d-35/main.py =====\n
+initialTrades = [
+  {"symbol": "AAPL", "side": "BUY", "price": 150, "quantity": 10},
+  {"symbol": "AAPL", "side": "SELL", "price": 152, "quantity": 5},
+  {"symbol": "TSLA", "side": "BUY", "price": 240, "quantity": 7},
+  {"symbol": "AAPL", "side": "BUY", "price": 151, "quantity": 2}
+]
+
+def summary(trades: list[dict]) -> dict:
+  summary = {}
+
+  for t in trades:
+    symbol = t["symbol"]
+    if symbol not in summary:
+      summary[symbol] = {
+        "latestPrice": 0,
+        "totalQty": 0,
+        "avgBuyPrice": 0,
+        "count": 0
+      }
+
+    # always update latest price + total qty
+    summary[symbol]["latestPrice"] = t["price"]
+    summary[symbol]["totalQty"] += t["quantity"]
+
+    # accumulate for buys only
+    if t["side"] == "BUY":
+      summary[symbol]["avgBuyPrice"] += t["price"] * t["quantity"]
+      summary[symbol]["count"] += t["quantity"]
+
+  # compute weighted average
+  for symbol, data in summary.items():
+    if data["count"] > 0:
+      data["avgBuyPrice"] = data["avgBuyPrice"] / data["count"]
+    else:
+      data["avgBuyPrice"] = 0
+    del data["count"]
+
+  return summary
+
+result = summary(initialTrades)
+print(result)
+initialTrades = [
+  {"symbol": "AAPL", "side": "BUY", "price": 150, "quantity": 10},
+  {"symbol": "AAPL", "side": "SELL", "price": 152, "quantity": 5},
+  {"symbol": "TSLA", "side": "BUY", "price": 240, "quantity": 7},
+  {"symbol": "AAPL", "side": "BUY", "price": 151, "quantity": 2}
+]
+
+def summary(trades: list[dict]) -> dict:
+  summary = {}
+
+  for t in trades:
+    symbol = t["symbol"]
+    if symbol not in summary:
+      summary[symbol] = {
+        "latestPrice": 0,
+        "totalQty": 0,
+        "avgBuyPrice": 0,
+        "count": 0
+      }
+
+    # always update latest price + total qty
+    summary[symbol]["latestPrice"] = t["price"]
+    summary[symbol]["totalQty"] += t["quantity"]
+
+    # accumulate for buys only
+    if t["side"] == "BUY":
+      summary[symbol]["avgBuyPrice"] += t["price"] * t["quantity"]
+      summary[symbol]["count"] += t["quantity"]
+
+  # compute weighted average
+  for symbol, data in summary.items():
+    if data["count"] > 0:
+      data["avgBuyPrice"] = data["avgBuyPrice"] / data["count"]
+    else:
+      data["avgBuyPrice"] = 0
+    del data["count"]
+
+  return summary
+
+result = summary(initialTrades)
+print(result)
+\n\n# ===== ./d-32/page.tsx =====\n
+\n\n# ===== ./d-32/page.tsx =====\n
+"use client";
+import { useState, useEffect } from "react";
+
+interface Trades {
+  symbol: string;
+  price: number;
+  quantity: number;
+  side: string;
+}
+
+const initialTrades = [
+  { symbol: "AAPL", price: 182.34, quantity: 50, side: "BUY" },
+  { symbol: "TSLA", price: 244.1, quantity: 12, side: "SELL" },
+  { symbol: "AAPL", price: 182.9, quantity: 25, side: "SELL" },
+  { symbol: "MSFT", price: 380.0, quantity: 5, side: "BUY" },
+];
+
+export default function App() {
+  const [trades, setTrades] = useState<Trades[]>([]);
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    setTrades(initialTrades);
+  }, []);
+
+  const grouped = trades.reduce((acc, trade) => {
+    if (!acc[trade.symbol]) {
+      acc[trade.symbol] = {
+        latestPrice: trade.price,
+        totalQty: trade.quantity,
+      };
+    } else {
+      acc[trade.symbol].latestPrice = trade.price;
+      acc[trade.symbol].totalQty += trade.quantity;
+    }
+    return acc;
+  }, {} as Record<string, {latestPrice : number, totalQty : number}>);
+
+  const entries = Object.entries(grouped);
+  
+const filtered = entries.filter(([symbol]) =>
+  symbol.toLowerCase().includes(input.toLowerCase())
+);
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+      <div className="w-full max-w-7xl px-6 flex flex-col">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Filter"
+        />
+        <table>
+          <thead>
+            <tr>
+              <th>Symbol Name</th>
+              <th>Latest Price</th>
+              <th>Quantity Sold</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map(([symbol, data]) => (
+              <tr key={symbol}>
+                <td>{symbol}</td>
+                <td>{data.latestPrice}</td>
+                <td>{data.totalQty}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
+
+// create an interface
+// render the table via usestate a useffect
+// show unique symbols
+// table
+// column header
+// symbol name, latest trade price, quantity sold
+// input field
+
+// set doesnt allow duplicates
+// lates price, total quantity running sum
+"use client";
+import { useState, useEffect } from "react";
+
+interface Trades {
+  symbol: string;
+  price: number;
+  quantity: number;
+  side: string;
+}
+
+const initialTrades = [
+  { symbol: "AAPL", price: 182.34, quantity: 50, side: "BUY" },
+  { symbol: "TSLA", price: 244.1, quantity: 12, side: "SELL" },
+  { symbol: "AAPL", price: 182.9, quantity: 25, side: "SELL" },
+  { symbol: "MSFT", price: 380.0, quantity: 5, side: "BUY" },
+];
+
+export default function App() {
+  const [trades, setTrades] = useState<Trades[]>([]);
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    setTrades(initialTrades);
+  }, []);
+
+  const grouped = trades.reduce((acc, trade) => {
+    if (!acc[trade.symbol]) {
+      acc[trade.symbol] = {
+        latestPrice: trade.price,
+        totalQty: trade.quantity,
+      };
+    } else {
+      acc[trade.symbol].latestPrice = trade.price;
+      acc[trade.symbol].totalQty += trade.quantity;
+    }
+    return acc;
+  }, {} as Record<string, {latestPrice : number, totalQty : number}>);
+
+  const entries = Object.entries(grouped);
+  
+const filtered = entries.filter(([symbol]) =>
+  symbol.toLowerCase().includes(input.toLowerCase())
+);
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+      <div className="w-full max-w-7xl px-6 flex flex-col">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Filter"
+        />
+        <table>
+          <thead>
+            <tr>
+              <th>Symbol Name</th>
+              <th>Latest Price</th>
+              <th>Quantity Sold</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map(([symbol, data]) => (
+              <tr key={symbol}>
+                <td>{symbol}</td>
+                <td>{data.latestPrice}</td>
+                <td>{data.totalQty}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
+
+// create an interface
+// render the table via usestate a useffect
+// show unique symbols
+// table
+// column header
+// symbol name, latest trade price, quantity sold
+// input field
+
+// set doesnt allow duplicates
+// lates price, total quantity running sum
 \n\n# ===== ./d-5/page.tsx =====\n
 \n\n# ===== ./d-5/page.tsx =====\n
 "use client";
@@ -730,7 +1206,111 @@ print(trade_lookup)
 
 print("Problem 5")
 for t in total_values:
-  print(t)\n\n# ===== ./d-10/frontend/page.tsx =====\n
+  print(t)\n\n# ===== ./d-26/main.py =====\n
+\n\n# ===== ./d-26/main.py =====\n
+readings = [
+    {"id": "A1", "temp": 72.5, "timestamp": "2025-10-18T09:00:00"},
+    {"id": "B7", "temp": 80.2, "timestamp": "2025-10-18T09:01:00"},
+    {"id": "A1", "temp": 74.0, "timestamp": "2025-10-18T09:10:00"},
+    {"id": "B7", "temp": 90.0, "timestamp": "2025-10-18T09:12:00"},
+    {"id": "A1", "temp": 76.8, "timestamp": "2025-10-18T09:20:00"},
+    {"id": "B7", "temp": 88.5, "timestamp": "2025-10-18T09:30:00"},
+]
+
+def analyze_sensors(readings: list[dict], threshold: float) -> dict:
+  '''
+  because we need to return a list, we should initialize a summary list.
+  then we need to iterate through the list, and what we should do is a couple things
+  we will have **four** paramaters that will be returned, but i am going to use six initially, then delete those two once the function ends.
+  average temp, max temp, alert, and last seen is what we will need.
+  so what we can do is introduecd two temp parameters per object
+  total_temp, and count.
+  this is necessary for avg_temp because total temp / count is the average.
+  '''
+  summary = {}
+  for a in readings:
+    id = a["id"]
+    if id not in summary:
+      summary[id] = {
+        "avg_temp" : 0.0,
+        "max_temp" : 0.0,
+        "alert" : False,
+        "last_seen" : "",
+        "total_temp" : 0.0,
+        "count" : 0
+      }
+    # now we're going into what happens regardless.
+    summary[id]["last_seen"] = a["timestamp"]
+    summary[id]["max_temp"] = max(a["temp"], summary[id]["max_temp"])
+    summary[id]["count"] += 1
+    summary[id]["total_temp"] += a["temp"]
+    summary[id]["avg_temp"] = summary[id]["total_temp"] / summary[id]["count"]
+
+  for sensor_id, data in summary.items():
+    if data["max_temp"] > threshold:
+        data["alert"] = True
+    else:
+        data["alert"] = False
+      # cleanup
+    del data["count"], data["total_temp"]
+      
+  
+  return summary
+
+result = analyze_sensors(readings, 85.0)
+
+print(result)readings = [
+    {"id": "A1", "temp": 72.5, "timestamp": "2025-10-18T09:00:00"},
+    {"id": "B7", "temp": 80.2, "timestamp": "2025-10-18T09:01:00"},
+    {"id": "A1", "temp": 74.0, "timestamp": "2025-10-18T09:10:00"},
+    {"id": "B7", "temp": 90.0, "timestamp": "2025-10-18T09:12:00"},
+    {"id": "A1", "temp": 76.8, "timestamp": "2025-10-18T09:20:00"},
+    {"id": "B7", "temp": 88.5, "timestamp": "2025-10-18T09:30:00"},
+]
+
+def analyze_sensors(readings: list[dict], threshold: float) -> dict:
+  '''
+  because we need to return a list, we should initialize a summary list.
+  then we need to iterate through the list, and what we should do is a couple things
+  we will have **four** paramaters that will be returned, but i am going to use six initially, then delete those two once the function ends.
+  average temp, max temp, alert, and last seen is what we will need.
+  so what we can do is introduecd two temp parameters per object
+  total_temp, and count.
+  this is necessary for avg_temp because total temp / count is the average.
+  '''
+  summary = {}
+  for a in readings:
+    id = a["id"]
+    if id not in summary:
+      summary[id] = {
+        "avg_temp" : 0.0,
+        "max_temp" : 0.0,
+        "alert" : False,
+        "last_seen" : "",
+        "total_temp" : 0.0,
+        "count" : 0
+      }
+    # now we're going into what happens regardless.
+    summary[id]["last_seen"] = a["timestamp"]
+    summary[id]["max_temp"] = max(a["temp"], summary[id]["max_temp"])
+    summary[id]["count"] += 1
+    summary[id]["total_temp"] += a["temp"]
+    summary[id]["avg_temp"] = summary[id]["total_temp"] / summary[id]["count"]
+
+  for sensor_id, data in summary.items():
+    if data["max_temp"] > threshold:
+        data["alert"] = True
+    else:
+        data["alert"] = False
+      # cleanup
+    del data["count"], data["total_temp"]
+      
+  
+  return summary
+
+result = analyze_sensors(readings, 85.0)
+
+print(result)\n\n# ===== ./d-10/frontend/page.tsx =====\n
 \n\n# ===== ./d-10/frontend/page.tsx =====\n
 "use client";
 import { useState, useEffect } from "react";
@@ -970,7 +1550,69 @@ def handleDeleteTask(id):
     return jsonify({"message": f"Task {id} deleted"}), 200
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5001)\n\n# ===== ./d-17/page.tsx =====\n
+    app.run(debug=True, host="0.0.0.0", port=5001)\n\n# ===== ./d-28/main.py =====\n
+\n\n# ===== ./d-28/main.py =====\n
+requests = [
+    {"name": "Alice", "seat": "A1"},
+    {"name": "Bob", "seat": "A1"},
+    {"name": "Cathy", "seat": "B3"},
+    {"name": "David", "seat": "C4"},
+    {"name": "Eli", "seat": "B3"},
+]
+
+def allocate_seats(requests: list[dict]) -> dict:
+  # what we can do is create a temp list of the seats
+  # if we encounter a name whos seat exists in that list
+  # then we just put that name in the waitlist
+  allocated = {
+    "confirmed" : [],
+    "waitlisted" : [],
+    #temp
+    "seats_taken" : []
+  }
+  for s in requests:
+    if s["seat"] not in allocated["seats_taken"]:
+      allocated["seats_taken"].append(s["seat"])
+      allocated["confirmed"].append(s["name"])
+    else:
+      allocated["waitlisted"].append(s["name"])
+      
+  del allocated["seats_taken"]
+  return allocated
+
+
+result = allocate_seats(requests)
+print(result)requests = [
+    {"name": "Alice", "seat": "A1"},
+    {"name": "Bob", "seat": "A1"},
+    {"name": "Cathy", "seat": "B3"},
+    {"name": "David", "seat": "C4"},
+    {"name": "Eli", "seat": "B3"},
+]
+
+def allocate_seats(requests: list[dict]) -> dict:
+  # what we can do is create a temp list of the seats
+  # if we encounter a name whos seat exists in that list
+  # then we just put that name in the waitlist
+  allocated = {
+    "confirmed" : [],
+    "waitlisted" : [],
+    #temp
+    "seats_taken" : []
+  }
+  for s in requests:
+    if s["seat"] not in allocated["seats_taken"]:
+      allocated["seats_taken"].append(s["seat"])
+      allocated["confirmed"].append(s["name"])
+    else:
+      allocated["waitlisted"].append(s["name"])
+      
+  del allocated["seats_taken"]
+  return allocated
+
+
+result = allocate_seats(requests)
+print(result)\n\n# ===== ./d-17/page.tsx =====\n
 \n\n# ===== ./d-17/page.tsx =====\n
 "use client";
 import { useState } from "react";
@@ -1678,7 +2320,81 @@ export default function App() {
     </div>
   );
 }
-\n\n# ===== ./d-16/page.tsx =====\n
+\n\n# ===== ./d-29/main.py =====\n
+\n\n# ===== ./d-29/main.py =====\n
+requests = [
+    {"team": "Alpha", "start": 9, "end": 11},
+    {"team": "Beta", "start": 10, "end": 12},
+    {"team": "Gamma", "start": 13, "end": 15},
+    {"team": "Delta", "start": 11, "end": 13},
+]
+
+# a booking request is invalid if: the start time is greater than any object's start time or the end time is less
+# it also needs to iterate only up to the current object.
+# i need a function that does this.
+
+def check_overlap(new_meeting, confirmed) -> bool:
+  for c in confirmed:
+    if new_meeting["start"] < c["end"] and new_meeting["end"]> c["start"]:
+      return True
+    return False
+
+def schedule_meetings(requests: list[dict]) -> dict:
+  process = {
+    "confirmed" : [],
+    "rejected" : []
+  }
+
+  for r in requests:
+    if check_overlap(r, process["confirmed"]):
+      process["rejected"].append(r["team"])
+    else:
+      process["confirmed"].append(r)
+
+  teams = []
+  for c in process["confirmed"]:
+    teams.append(c["team"])
+    process["confirmed"] = teams
+  return process
+
+result = schedule_meetings(requests)
+print(result)requests = [
+    {"team": "Alpha", "start": 9, "end": 11},
+    {"team": "Beta", "start": 10, "end": 12},
+    {"team": "Gamma", "start": 13, "end": 15},
+    {"team": "Delta", "start": 11, "end": 13},
+]
+
+# a booking request is invalid if: the start time is greater than any object's start time or the end time is less
+# it also needs to iterate only up to the current object.
+# i need a function that does this.
+
+def check_overlap(new_meeting, confirmed) -> bool:
+  for c in confirmed:
+    if new_meeting["start"] < c["end"] and new_meeting["end"]> c["start"]:
+      return True
+    return False
+
+def schedule_meetings(requests: list[dict]) -> dict:
+  process = {
+    "confirmed" : [],
+    "rejected" : []
+  }
+
+  for r in requests:
+    if check_overlap(r, process["confirmed"]):
+      process["rejected"].append(r["team"])
+    else:
+      process["confirmed"].append(r)
+
+  teams = []
+  for c in process["confirmed"]:
+    teams.append(c["team"])
+    process["confirmed"] = teams
+  return process
+
+result = schedule_meetings(requests)
+print(result)\n\n# ===== ./d-16/page.tsx =====\n
 \n\n# ===== ./d-16/page.tsx =====\n
 "use client";
 
@@ -2334,7 +3050,81 @@ print("Problem 4")
 print(grouped)
 
 print("Problem 5")
-print(sorted_trades)\n\n# ===== ./d-20/main.py =====\n
+print(sorted_trades)\n\n# ===== ./d-27/main.py =====\n
+\n\n# ===== ./d-27/main.py =====\n
+keys = [
+    "auth-us-AB12CD34",
+    "data-eu-Z9X8Y7W6",
+    "cache-ap-1234ABCD",
+    "auth-eu-1234567",     # invalid (too short)
+    "login-us-ABCDEFGH",   # invalid (wrong service)
+    "data-uk-12345678"     # invalid (wrong region)
+]
+
+def check_validity(service, region, code) -> bool:
+  if service == "auth" or service == "data" or service == "cache":
+    if region == "us" or region == "eu" or region == "ap":
+      if code.isalnum() and len(code) == 8:
+        return True
+  return False
+
+def validate_keys(keys : list[str]) -> dict:
+  valid = {
+    "valid" : 0,
+    "invalid" : 0,
+    "invalid_keys" : []
+  }
+  for k in keys:
+    parts = k.split('-')
+    service = parts[0]
+    region = parts[1]
+    code = parts[2]
+
+    if check_validity(service, region, code):
+      valid["valid"] += 1
+    else:
+      valid["invalid"] += 1
+      valid["invalid_keys"].append(k)
+  return valid
+
+result = validate_keys(keys)
+print(result)keys = [
+    "auth-us-AB12CD34",
+    "data-eu-Z9X8Y7W6",
+    "cache-ap-1234ABCD",
+    "auth-eu-1234567",     # invalid (too short)
+    "login-us-ABCDEFGH",   # invalid (wrong service)
+    "data-uk-12345678"     # invalid (wrong region)
+]
+
+def check_validity(service, region, code) -> bool:
+  if service == "auth" or service == "data" or service == "cache":
+    if region == "us" or region == "eu" or region == "ap":
+      if code.isalnum() and len(code) == 8:
+        return True
+  return False
+
+def validate_keys(keys : list[str]) -> dict:
+  valid = {
+    "valid" : 0,
+    "invalid" : 0,
+    "invalid_keys" : []
+  }
+  for k in keys:
+    parts = k.split('-')
+    service = parts[0]
+    region = parts[1]
+    code = parts[2]
+
+    if check_validity(service, region, code):
+      valid["valid"] += 1
+    else:
+      valid["invalid"] += 1
+      valid["invalid_keys"].append(k)
+  return valid
+
+result = validate_keys(keys)
+print(result)\n\n# ===== ./d-20/main.py =====\n
 \n\n# ===== ./d-20/main.py =====\n
 trades = [
     {"id": 1, "symbol": "AAPL", "side": "BUY", "price": 150, "quantity": 50},
@@ -2440,7 +3230,357 @@ print(inverted_freq_table)
 print("Problem 3")
 print(trades_all)
 
-print(items)\n\n# ===== ./d-22/main.py =====\n
+print(items)\n\n# ===== ./d-30/page.tsx =====\n
+\n\n# ===== ./d-30/page.tsx =====\n
+"use client";
+import { useState, useEffect } from "react";
+
+const user = [
+  { id: 1, name: "Alice Johnson", role: "Engineer" },
+  { id: 2, name: "Bob Smith", role: "Designer" },
+  { id: 3, name: "Charlie Brown", role: "Engineer" },
+  { id: 4, name: "Diana White", role: "Manager" },
+];
+
+interface User {
+  id: number;
+  name: string;
+  role: string;
+}
+
+export function useDebounce(value: string, delay = 300) {
+  const [debounce, setDebounce] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounce(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debounce;
+}
+
+export default function App() {
+  const [input, setInput] = useState("");
+  const [users, setUsers] = useState<User[]>([]);
+  const debouncedSearch = useDebounce(input, 400);
+
+  useEffect(() => {
+    setUsers(user);
+  }, []);
+
+  const filtered = users.filter((u) =>
+    u.name.toLowerCase().includes(debouncedSearch.toLowerCase())
+  );
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+      <div className="w-full max-w-7xl px-6 flex flex-col">
+        <input
+          value={input}
+          placeholder="Filter"
+          type="text"
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((t) => (
+              <tr key={t.id}>
+                <th>{t.name}</th>
+                <th>{t.role}</th>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
+"use client";
+import { useState, useEffect } from "react";
+
+const user = [
+  { id: 1, name: "Alice Johnson", role: "Engineer" },
+  { id: 2, name: "Bob Smith", role: "Designer" },
+  { id: 3, name: "Charlie Brown", role: "Engineer" },
+  { id: 4, name: "Diana White", role: "Manager" },
+];
+
+interface User {
+  id: number;
+  name: string;
+  role: string;
+}
+
+export function useDebounce(value: string, delay = 300) {
+  const [debounce, setDebounce] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounce(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+  return debounce;
+}
+
+export default function App() {
+  const [input, setInput] = useState("");
+  const [users, setUsers] = useState<User[]>([]);
+  const debouncedSearch = useDebounce(input, 400);
+
+  useEffect(() => {
+    setUsers(user);
+  }, []);
+
+  const filtered = users.filter((u) =>
+    u.name.toLowerCase().includes(debouncedSearch.toLowerCase())
+  );
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+      <div className="w-full max-w-7xl px-6 flex flex-col">
+        <input
+          value={input}
+          placeholder="Filter"
+          type="text"
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((t) => (
+              <tr key={t.id}>
+                <th>{t.name}</th>
+                <th>{t.role}</th>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
+\n\n# ===== ./d-31/page.tsx =====\n
+\n\n# ===== ./d-31/page.tsx =====\n
+"use client";
+import { useState, useEffect } from "react";
+
+interface Task {
+  id: number;
+  name: string;
+  done: boolean;
+}
+
+const initialTasks = [
+  { id: 1, name: "Prepare slides", done: false },
+  { id: 2, name: "Email design team", done: true },
+  { id: 3, name: "Deploy to staging", done: false },
+];
+
+export default function App() {
+  useEffect(() => {
+    setTasks(initialTasks);
+  }, []);
+
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [hideCompleted, setHideCompleted] = useState<boolean>(false);
+
+  const handleCheck = (id: number) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
+    );
+  };
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+      <div className="w-full max-w-7xl px-6 flex flex-col">
+        <div className="mb-4">
+          <label className="flex items-center">
+            <input
+              type="checkbox"
+              checked={hideCompleted}
+              onChange={() => setHideCompleted(!hideCompleted)}
+              className="mr-2"
+            />
+            Hide completed tasks
+          </label>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Done?</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tasks
+              .filter((t) => !hideCompleted || !t.done)
+              .map((t) => (
+              <tr key={t.id}>
+                <td>{t.name}</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={t.done}
+                    onChange={() => {
+                      handleCheck(t.id);
+                    }}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        Count : {(() => {
+          const visibleTasks = tasks.filter((t) => !hideCompleted || !t.done);
+          const completedVisible = visibleTasks.filter((t) => t.done).length;
+          return `${completedVisible} / ${visibleTasks.length}`;
+        })()}
+      </div>
+    </main>
+  );
+}
+"use client";
+import { useState, useEffect } from "react";
+
+interface Task {
+  id: number;
+  name: string;
+  done: boolean;
+}
+
+const initialTasks = [
+  { id: 1, name: "Prepare slides", done: false },
+  { id: 2, name: "Email design team", done: true },
+  { id: 3, name: "Deploy to staging", done: false },
+];
+
+export default function App() {
+  useEffect(() => {
+    setTasks(initialTasks);
+  }, []);
+
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [hideCompleted, setHideCompleted] = useState<boolean>(false);
+
+  const handleCheck = (id: number) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
+    );
+  };
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+      <div className="w-full max-w-7xl px-6 flex flex-col">
+        <div className="mb-4">
+          <label className="flex items-center">
+            <input
+              type="checkbox"
+              checked={hideCompleted}
+              onChange={() => setHideCompleted(!hideCompleted)}
+              className="mr-2"
+            />
+            Hide completed tasks
+          </label>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Done?</th>
+            </tr>
+          </thead>
+          <tbody>
+            {tasks
+              .filter((t) => !hideCompleted || !t.done)
+              .map((t) => (
+              <tr key={t.id}>
+                <td>{t.name}</td>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={t.done}
+                    onChange={() => {
+                      handleCheck(t.id);
+                    }}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        Count : {(() => {
+          const visibleTasks = tasks.filter((t) => !hideCompleted || !t.done);
+          const completedVisible = visibleTasks.filter((t) => t.done).length;
+          return `${completedVisible} / ${visibleTasks.length}`;
+        })()}
+      </div>
+    </main>
+  );
+}
+\n\n# ===== ./d-25/main.py =====\n
+\n\n# ===== ./d-25/main.py =====\n
+logs = [
+    {"user": "alice", "action": "login", "timestamp": "2025-10-18T09:00:00"},
+    {"user": "bob", "action": "login", "timestamp": "2025-10-18T09:15:00"},
+    {"user": "alice", "action": "logout", "timestamp": "2025-10-18T10:00:00"},
+    {"user": "alice", "action": "login", "timestamp": "2025-10-18T11:00:00"},
+    {"user": "bob", "action": "logout", "timestamp": "2025-10-18T11:30:00"},
+    {"user": "alice", "action": "logout", "timestamp": "2025-10-18T12:00:00"},
+]
+
+def summarize_activity(logs: list[dict]) -> dict:
+  summary = {}
+  for t in logs:
+    user = t["user"]
+    if user not in summary: 
+      summary[user] = {
+        "login_count" : 0,
+        "first_activity" : t["timestamp"],
+        "last_activity" : ""
+      }
+    if t["action"] == "login":
+      summary[user]["login_count"] += 1
+    summary[user]["last_activity"] = t["timestamp"]
+  return summary
+
+result = summarize_activity(logs)
+print(result)logs = [
+    {"user": "alice", "action": "login", "timestamp": "2025-10-18T09:00:00"},
+    {"user": "bob", "action": "login", "timestamp": "2025-10-18T09:15:00"},
+    {"user": "alice", "action": "logout", "timestamp": "2025-10-18T10:00:00"},
+    {"user": "alice", "action": "login", "timestamp": "2025-10-18T11:00:00"},
+    {"user": "bob", "action": "logout", "timestamp": "2025-10-18T11:30:00"},
+    {"user": "alice", "action": "logout", "timestamp": "2025-10-18T12:00:00"},
+]
+
+def summarize_activity(logs: list[dict]) -> dict:
+  summary = {}
+  for t in logs:
+    user = t["user"]
+    if user not in summary: 
+      summary[user] = {
+        "login_count" : 0,
+        "first_activity" : t["timestamp"],
+        "last_activity" : ""
+      }
+    if t["action"] == "login":
+      summary[user]["login_count"] += 1
+    summary[user]["last_activity"] = t["timestamp"]
+  return summary
+
+result = summarize_activity(logs)
+print(result)\n\n# ===== ./d-22/main.py =====\n
 \n\n# ===== ./d-22/main.py =====\n
 trades = [
     {"id": 1, "symbol": "AAPL", "price": "150.5", "quantity": 50},
@@ -4174,7 +5314,363 @@ export default function App() {
     </main>
   );
 }
-\n\n# ===== ./d-9/frontend/page.tsx =====\n
+\n\n# ===== ./d-23/main.py =====\n
+\n\n# ===== ./d-23/main.py =====\n
+from Flask import Flask, jsonify, request
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+trades = [
+    {"symbol": "AAPL", "side": "BUY", "price": 150, "quantity": 10},
+    {"symbol": "AAPL", "side": "SELL", "price": 152, "quantity": 5},
+    {"symbol": "TSLA", "side": "BUY", "price": 240, "quantity": 7},
+    {"symbol": "TSLA", "side": "SELL", "price": 239, "quantity": 4},
+    {"symbol": "GOOG", "side": "BUY", "price": 2800, "quantity": 2}
+]
+
+def check_validity(trades):
+  valid_trades = []
+  for t in trades:
+    try:
+      symbol = t["symbol"]
+      side = t["side"]
+      price = float(t["price"])
+      quantity = int(t["quantity"])
+      valid_trades.append(t)
+    except KeyError as e:
+      print(f"Missing field {e} in trade {t['id']}")
+    except (ValueError, TypeError):
+      print(f"Invalid price format in trade {t['id']}")
+  return valid_trades
+
+@app.route("/api/trades", methods = [GET])
+def get_trades():
+  symbol = request.args.get("symbol", default=None, type=str)
+  valid_trades = check_validity(trades)
+
+  if symbol:
+    filtered = [
+      t for t in valid_trades if t["symbol"].lower() == symbol.lower()
+    ]
+    return jsonify(filtered), 200
+
+  return jsonify(valid_trades), 200 
+
+
+if __name__ ==  "__main__":
+  app.run(debug=True)from Flask import Flask, jsonify, request
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+trades = [
+    {"symbol": "AAPL", "side": "BUY", "price": 150, "quantity": 10},
+    {"symbol": "AAPL", "side": "SELL", "price": 152, "quantity": 5},
+    {"symbol": "TSLA", "side": "BUY", "price": 240, "quantity": 7},
+    {"symbol": "TSLA", "side": "SELL", "price": 239, "quantity": 4},
+    {"symbol": "GOOG", "side": "BUY", "price": 2800, "quantity": 2}
+]
+
+def check_validity(trades):
+  valid_trades = []
+  for t in trades:
+    try:
+      symbol = t["symbol"]
+      side = t["side"]
+      price = float(t["price"])
+      quantity = int(t["quantity"])
+      valid_trades.append(t)
+    except KeyError as e:
+      print(f"Missing field {e} in trade {t['id']}")
+    except (ValueError, TypeError):
+      print(f"Invalid price format in trade {t['id']}")
+  return valid_trades
+
+@app.route("/api/trades", methods = [GET])
+def get_trades():
+  symbol = request.args.get("symbol", default=None, type=str)
+  valid_trades = check_validity(trades)
+
+  if symbol:
+    filtered = [
+      t for t in valid_trades if t["symbol"].lower() == symbol.lower()
+    ]
+    return jsonify(filtered), 200
+
+  return jsonify(valid_trades), 200 
+
+
+if __name__ ==  "__main__":
+  app.run(debug=True)\n\n# ===== ./d-23/page.tsx =====\n
+\n\n# ===== ./d-23/page.tsx =====\n
+"use client";
+import { useEffect, useState } from "react";
+
+interface Trade {
+  symbol: string;
+  side: string;
+  price: number;
+  quantity: number;
+}
+
+export default function App() {
+  const [trades, setTrades] = useState<Trade[]>([]);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/trades")
+      .then((res) => res.json())
+      .then((trade) => setTrades(trade))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const symbols = [...new Set(trades.map((t) => t.symbol))];
+  const filtered = trades.filter((t) =>
+    t.symbol.toLowerCase().includes(query.toLowerCase())
+  );
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+      <div className="w-full max-w-7xl px-6 flex flex-col">
+        <select
+          name="symbol-filter"
+          id="symbol-filter"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="mb-4 px-3 py-2 border border-gray-300 rounded-md"
+        >
+          <option>All Symbols</option>
+          {symbols.map((sym) => (
+            <option key={sym}>{sym}</option>
+          ))}
+        </select>
+        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <thead>
+            <tr className="bg-gray-50">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Side</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={4} className="text-center py-8">
+                  Loading trades...
+                </td>
+              </tr>
+            ) : error ? (
+              <tr>
+                <td colSpan={4} className="text-center py-8 text-red-600">
+                  Error: {error}
+                </td>
+              </tr>
+            ) : query === "All Symbols" ? (
+              trades.map((row, index) => (
+                <tr key={index}>
+                  <td>{row.symbol}</td>
+                  <td>{row.side}</td>
+                  <td>{row.price}</td>
+                  <td>{row.quantity}</td>
+                </tr>
+              ))
+            ) : (
+              filtered.map((row, index) => (
+                <tr key={index}>
+                  <td>{row.symbol}</td>
+                  <td>{row.side}</td>
+                  <td>{row.price}</td>
+                  <td>{row.quantity}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
+"use client";
+import { useEffect, useState } from "react";
+
+interface Trade {
+  symbol: string;
+  side: string;
+  price: number;
+  quantity: number;
+}
+
+export default function App() {
+  const [trades, setTrades] = useState<Trade[]>([]);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/trades")
+      .then((res) => res.json())
+      .then((trade) => setTrades(trade))
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const symbols = [...new Set(trades.map((t) => t.symbol))];
+  const filtered = trades.filter((t) =>
+    t.symbol.toLowerCase().includes(query.toLowerCase())
+  );
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+      <div className="w-full max-w-7xl px-6 flex flex-col">
+        <select
+          name="symbol-filter"
+          id="symbol-filter"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="mb-4 px-3 py-2 border border-gray-300 rounded-md"
+        >
+          <option>All Symbols</option>
+          {symbols.map((sym) => (
+            <option key={sym}>{sym}</option>
+          ))}
+        </select>
+        <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <thead>
+            <tr className="bg-gray-50">
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Side</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan={4} className="text-center py-8">
+                  Loading trades...
+                </td>
+              </tr>
+            ) : error ? (
+              <tr>
+                <td colSpan={4} className="text-center py-8 text-red-600">
+                  Error: {error}
+                </td>
+              </tr>
+            ) : query === "All Symbols" ? (
+              trades.map((row, index) => (
+                <tr key={index}>
+                  <td>{row.symbol}</td>
+                  <td>{row.side}</td>
+                  <td>{row.price}</td>
+                  <td>{row.quantity}</td>
+                </tr>
+              ))
+            ) : (
+              filtered.map((row, index) => (
+                <tr key={index}>
+                  <td>{row.symbol}</td>
+                  <td>{row.side}</td>
+                  <td>{row.price}</td>
+                  <td>{row.quantity}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
+}
+\n\n# ===== ./d-24/main.py =====\n
+\n\n# ===== ./d-24/main.py =====\n
+trades = [
+    {"symbol": "AAPL", "side": "BUY", "price": 150, "quantity": 10},
+    {"symbol": "AAPL", "side": "SELL", "price": 152, "quantity": 5},
+    {"symbol": "TSLA", "side": "BUY", "price": 240, "quantity": 7},
+    {"symbol": "AAPL", "side": "BUY", "price": 149, "quantity": 3},
+    {"symbol": "TSLA", "side": "SELL", "price": 241, "quantity": 2},
+]
+
+def summarize_trades(trades : list[dict]) -> dict:
+  summary = {}
+  for t in trades:
+    symbol = t["symbol"]
+    if symbol not in summary:
+      summary[symbol] = {
+        "buy_qty" : 0,
+        "sell_qty" : 0,
+        "sell_total" : 0,
+        "buy_total" : 0,
+      }
+    if t["side"] == "BUY":
+      summary[symbol]["buy_qty"] += t["quantity"]
+      summary[symbol]["buy_total"] += t["quantity"] * t["price"]
+    elif t["side"] == "SELL":
+      summary[symbol]["sell_qty"] += t["quantity"]
+      summary[symbol]["sell_total"] += t["quantity"] * t["price"]
+  
+  for symbol, vals in summary.items():
+    vals["avg_buy_price"] = (
+      round(vals["buy_total"] / vals["buy_qty"], 2)
+      if vals["buy_qty"] else 0
+    )
+    vals["avg_sell_price"] = (
+      round(vals["sell_total"] / vals["sell_qty"], 2)
+      if vals["sell_qty"] else 0
+    )
+    del vals["buy_total"], vals["sell_total"]
+
+  return summary
+
+result = summarize_trades(trades)
+print(result)trades = [
+    {"symbol": "AAPL", "side": "BUY", "price": 150, "quantity": 10},
+    {"symbol": "AAPL", "side": "SELL", "price": 152, "quantity": 5},
+    {"symbol": "TSLA", "side": "BUY", "price": 240, "quantity": 7},
+    {"symbol": "AAPL", "side": "BUY", "price": 149, "quantity": 3},
+    {"symbol": "TSLA", "side": "SELL", "price": 241, "quantity": 2},
+]
+
+def summarize_trades(trades : list[dict]) -> dict:
+  summary = {}
+  for t in trades:
+    symbol = t["symbol"]
+    if symbol not in summary:
+      summary[symbol] = {
+        "buy_qty" : 0,
+        "sell_qty" : 0,
+        "sell_total" : 0,
+        "buy_total" : 0,
+      }
+    if t["side"] == "BUY":
+      summary[symbol]["buy_qty"] += t["quantity"]
+      summary[symbol]["buy_total"] += t["quantity"] * t["price"]
+    elif t["side"] == "SELL":
+      summary[symbol]["sell_qty"] += t["quantity"]
+      summary[symbol]["sell_total"] += t["quantity"] * t["price"]
+  
+  for symbol, vals in summary.items():
+    vals["avg_buy_price"] = (
+      round(vals["buy_total"] / vals["buy_qty"], 2)
+      if vals["buy_qty"] else 0
+    )
+    vals["avg_sell_price"] = (
+      round(vals["sell_total"] / vals["sell_qty"], 2)
+      if vals["sell_qty"] else 0
+    )
+    del vals["buy_total"], vals["sell_total"]
+
+  return summary
+
+result = summarize_trades(trades)
+print(result)\n\n# ===== ./d-9/frontend/page.tsx =====\n
 \n\n# ===== ./d-9/frontend/page.tsx =====\n
 "use client";
 import { useState, useEffect } from "react";
@@ -4684,10 +6180,11 @@ export default function Home() {
         <Button link="/d-15" />
         <Button link="/d-16" />
         <Button link="/d-17" />
-        <Button link="/d-18" />
-        <Button link="/d-19" />
-        <Button link="/d-20" />
-        <Button link="/d-21" />
+        <Button link="/d-23" />
+        <Button link="/d-30" />
+        <Button link="/d-31" />
+        <Button link="/d-32" />
+        <Button link="/d-33" />
       </div>
     </div>
   );
@@ -4722,10 +6219,11 @@ export default function Home() {
         <Button link="/d-15" />
         <Button link="/d-16" />
         <Button link="/d-17" />
-        <Button link="/d-18" />
-        <Button link="/d-19" />
-        <Button link="/d-20" />
-        <Button link="/d-21" />
+        <Button link="/d-23" />
+        <Button link="/d-30" />
+        <Button link="/d-31" />
+        <Button link="/d-32" />
+        <Button link="/d-33" />
       </div>
     </div>
   );
